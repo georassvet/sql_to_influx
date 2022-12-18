@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>Sql</title>
+
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a th:href="@{/addInterval}">Intervals</a>
+            <a th:href="@{/addDbConnect}">DbConnections</a>
+            <a th:href="@{/addInflux}">Influxes</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

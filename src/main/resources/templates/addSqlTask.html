@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>AddSqlTask</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <form method="post" th:action="@{/addSqlTask}" th:object="${form}">
+        <input type="hidden" class="form-control" th:field="*{id}">
+        <div class="row">
+        <div class="col-md-4">
+            <label for="interval" class="form-label">Interval</label><a th:href="@{/addInterval}">Add</a>
+            <select size="5" class="form-select" th:field="*{interval}" aria-label="Default select example" id="interval">
+                    <option th:each="interval : ${intervals}"
+                            th:text="${interval.name}"
+                            th:value="${interval.value}">
+                </select>
+            </select>
+            <label for="db-connection" class="form-label">DbConnection</label><a th:href="@{/addDbConnect}">Add</a>
+            <select th:field="*{connectionId}" size="5" class="form-select" aria-label="Default select example" id="db-connection">
+                <option th:each="db : ${dbs}"
+                        th:text="${db.name}"
+                        th:value="${db.id}">
+            </select>
+            <label for="influx-connection" class="form-label">InfluxConnection</label><a th:href="@{/addInflux}">Add</a>
+            <select th:field="*{influxConnectionId}" size ="5" class="form-select" aria-label="Default select example" id="influx-connection">
+                <option th:each="influx : ${influxes}"
+                        th:text="${influx.name}"
+                        th:value="${influx.id}">
+            </select>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="influx-db" class="form-label">InfluxDb</label>
+                    <input th:field="*{influxDatabase}" type="text" class="form-control" id="influx-db">
+                </div>
+                <div class="col-md-6">
+                    <label for="influx-measurement" class="form-label">InfluxMeasurement</label>
+                    <input th:field="*{influxMeasurement}" type="text" class="form-control" id="influx-measurement">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="group-name" class="form-label">GroupName</label>
+                    <input th:field="*{groupName}" type="text" class="form-control" id="group-name">
+                </div>
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Name</label>
+                    <input th:field="*{name}" type="text" class="form-control" id="name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="query" class="form-label">Query</label>
+                    <textarea th:field="*{query}" type="text" class="form-control" id="query" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                   <input type="submit" value="Save">
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="row">
+        <div class="col-md-12">
+            <label for="output" class="form-label">Output</label>
+            <textarea type="text" class="form-control" id="output" rows="10"></textarea>
+        </div>
+    </div>
+</div>
+</body>
+</html>

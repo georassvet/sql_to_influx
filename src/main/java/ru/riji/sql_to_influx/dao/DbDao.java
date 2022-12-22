@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.riji.sql_to_influx.form.ConnectForm;
 import ru.riji.sql_to_influx.helpers.DbUtils;
+import ru.riji.sql_to_influx.mappers.ConnectMapper;
 import ru.riji.sql_to_influx.mappers.DbMapper;
 import ru.riji.sql_to_influx.mappers.IntervalMapper;
 import ru.riji.sql_to_influx.model.Connect;
@@ -36,6 +37,17 @@ public class DbDao implements IDAO<Connect, ConnectForm>{
 
     @Override
     public Connect getById(int id) {
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(DbMapper.sql_get_id)
+        ){
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                return mapper.map(rs);
+            }
+        }catch (SQLException e){
+            System.out.println(e);
+        }
         return null;
     }
 

@@ -2,6 +2,7 @@ package ru.riji.sql_to_influx.runner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import ru.riji.sql_to_influx.model.Connect;
 import ru.riji.sql_to_influx.model.SqlData;
 import ru.riji.sql_to_influx.model.SqlTask;
 
@@ -18,16 +19,15 @@ public class SqlRunner {
     private JdbcTemplate jdbcTemplate;
 
 
-    public static SqlData runCommand(SqlTask task) throws SQLException {
-
+    public static SqlData runCommand(Connect connect, String query) throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         try(
-            Connection connection = DriverManager.getConnection(task.getDbConnect().getUrl());
-            PreparedStatement statement = connection.prepareStatement(task.getQuery())){
+            Connection connection = DriverManager.getConnection(connect.getUrl(), connect.getUser(), connect.getPass());
+            PreparedStatement statement = connection.prepareStatement(query)){
 
             ResultSetMetaData rsmd = statement.getMetaData();
             int columns = rsmd.getColumnCount();
@@ -38,18 +38,18 @@ public class SqlRunner {
             for (int i = 0, j = 0; i < columns ; i++) {
                 String columnName =  rsmd.getColumnName(i + 1);
                 String tag = parseTag(columnName);
+                columnTypes[j] = rsmd.getColumnTypeName( i + 1);
+                columnNames[j] = removeTag(columnName, tag);
                 if(tag !=null) {
-                    columnTypes[j] = rsmd.getColumnTypeName(i);
                     influxTypes[j] = tag;
-                    columnNames[j] = removeTag(columnName, tag);
-                    j++;
                 }
+                j++;
             }
             ResultSet rs = statement.executeQuery();
 
             List<List<String>> rows = new ArrayList<>();
 
-            if(rs!=null){
+            if(rs.next()){
                 do{
                     List<String> row = new ArrayList<>();
                     for(int i = 0; i < columnNames.length; i++){
@@ -63,8 +63,8 @@ public class SqlRunner {
 
         }catch (SQLException e){
             e.printStackTrace();
+            return new SqlData(e.getMessage());
         }
-        return null;
     }
 
     private static String removeTag(String columnName, String tag) {

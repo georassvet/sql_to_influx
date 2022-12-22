@@ -39,3 +39,21 @@ function getTasks(){
              })
         });
     }
+
+    $(document).on("click","#test",function(e) {
+    e.preventDefault();
+    var form = new FormData($('#form')[0]);
+
+           $.ajax({
+                 type: 'post',
+                 url: '/test',
+                  data: form,
+                  processData: false,
+                  contentType: false,
+                  cache: false,
+                  success: function (data) {
+                    console.log(data);
+                 }
+           })
+  });
+

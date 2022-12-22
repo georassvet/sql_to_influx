@@ -38,6 +38,6 @@ public class SqlTask implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        SqlRunner.runCommand(this);
+        SqlRunner.runCommand(this.dbConnect, this.getQuery());
     }
 }

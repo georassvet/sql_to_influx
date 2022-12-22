@@ -6,7 +6,7 @@
 </head>
 <body>
 <div layout:fragment="content" class="container">
-    <form method="post" th:action="@{/addSqlTask}" th:object="${form}">
+    <form method="post" th:action="@{/addSqlTask}" th:object="${form}" id="form">
         <input type="hidden" class="form-control" th:field="*{id}">
         <div class="row">
         <div class="col-md-4">
@@ -17,14 +17,14 @@
                             th:value="${interval.value}">
                 </select>
             </select>
-            <label for="db-connection" class="form-label">DbConnection</label><a th:href="@{/addDbConnect}">Add</a>
-            <select th:field="*{connectionId}" size="5" class="form-select" aria-label="Default select example" id="db-connection">
+            <label for="connectionId" class="form-label">DbConnection</label><a th:href="@{/addDbConnect}">Add</a>
+            <select th:field="*{connectionId}" size="5" class="form-select" aria-label="Default select example" id="connectionId">
                 <option th:each="db : ${dbs}"
                         th:text="${db.name}"
                         th:value="${db.id}">
             </select>
-            <label for="influx-connection" class="form-label">InfluxConnection</label><a th:href="@{/addInflux}">Add</a>
-            <select th:field="*{influxConnectionId}" size ="5" class="form-select" aria-label="Default select example" id="influx-connection">
+            <label for="influxConnectionId" class="form-label">InfluxConnection</label><a th:href="@{/addInflux}">Add</a>
+            <select th:field="*{influxConnectionId}" size ="5" class="form-select" aria-label="Default select example" id="influxConnectionId">
                 <option th:each="influx : ${influxes}"
                         th:text="${influx.name}"
                         th:value="${influx.id}">
@@ -33,12 +33,12 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="influx-db" class="form-label">InfluxDb</label>
-                    <input th:field="*{influxDatabase}" type="text" class="form-control" id="influx-db">
+                    <label for="influxDatabase" class="form-label">InfluxDb</label>
+                    <input th:field="*{influxDatabase}" type="text" class="form-control" id="influxDatabase">
                 </div>
                 <div class="col-md-6">
-                    <label for="influx-measurement" class="form-label">InfluxMeasurement</label>
-                    <input th:field="*{influxMeasurement}" type="text" class="form-control" id="influx-measurement">
+                    <label for="influxMeasurement" class="form-label">InfluxMeasurement</label>
+                    <input th:field="*{influxMeasurement}" type="text" class="form-control" id="influxMeasurement">
                 </div>
             </div>
             <div class="row">
@@ -59,7 +59,22 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                   <input type="submit" value="Save">
+                   <div class="btn-group">
+                       <button class="btn btn-sm btn-secondary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save-fill" viewBox="0 0 16 16">
+                           <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v7.793L4.854 6.646a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l3.5-3.5a.5.5 0 0 0-.708-.708L8.5 9.293V1.5z"/>
+                       </svg>
+                       </button>
+                       <button class="btn btn-sm btn-secondary" type="button" th:if="${form.id}!=0">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
+                               <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
+                           </svg>
+                       </button>
+                       <button class="btn btn-sm btn-secondary" type="button" id="test">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                               <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                           </svg>
+                       </button>
+                   </div>
                 </div>
             </div>
         </div>
@@ -71,6 +86,7 @@
             <textarea type="text" class="form-control" id="output" rows="10"></textarea>
         </div>
     </div>
+    <div th:replace = "/fragments/scripts.html :: script_sql"></div>
 </div>
 </body>
 </html>

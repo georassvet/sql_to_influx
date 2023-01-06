@@ -3,16 +3,18 @@ package ru.riji.sql_to_influx.model;
 import lombok.Data;
 import lombok.SneakyThrows;
 import ru.riji.sql_to_influx.runner.SqlRunner;
+import ru.riji.sql_to_influx.service.InfluxService;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledFuture;
 
 @Data
-public class SqlTask implements Runnable {
+public class SqlTask implements ITask, Runnable {
     private int id;
     private String name;
     private String groupName;
     private String query;
+    private String description;
     private boolean enable;
     private Connect dbConnect;
     private Connect influxConnect;
@@ -22,7 +24,7 @@ public class SqlTask implements Runnable {
 
     private ScheduledFuture<?> scheduledFuture;
 
-    public SqlTask(int id, String name, String groupName, String query, boolean enable, int dbConnectId, String dbConnectName, String dbConnectUrl, String dbConnectUser, String dbConnectPass, int influxConnectId, String influxConnectName, String influxConnectUrl, String influxConnectUser, String influxConnectPass, String influxDatabase, String influxTable, long interval) {
+    public SqlTask(int id, String name, String groupName, String query, boolean enable, int dbConnectId, String dbConnectName, String dbConnectUrl, String dbConnectUser, String dbConnectPass, int influxConnectId, String influxConnectName, String influxConnectUrl, String influxConnectUser, String influxConnectPass, String influxDatabase, String influxTable, long interval, String description) {
         this.id = id;
         this.name = name;
         this.groupName = groupName;
@@ -33,11 +35,13 @@ public class SqlTask implements Runnable {
         this.influxDatabase = influxDatabase;
         this.influxTable = influxTable;
         this.interval = interval;
+        this.description = description;
     }
 
     @SneakyThrows
     @Override
     public void run() {
-        SqlRunner.runCommand(this.dbConnect, this.getQuery());
+        System.out.println("run task");
+        InfluxService.writeData(SqlRunner.runCommand(this.dbConnect, this.getQuery()), this);
     }
 }

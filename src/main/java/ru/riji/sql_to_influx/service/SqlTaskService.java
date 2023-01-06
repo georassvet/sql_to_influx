@@ -16,6 +16,7 @@ import ru.riji.sql_to_influx.model.SqlTask;
 import ru.riji.sql_to_influx.runner.SqlRunner;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,13 +26,17 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
    @Autowired
    @Qualifier("dbDao")
    private IDAO<Connect, ConnectForm> dbConnect;
+
+   @Autowired
    private ThreadPoolTaskScheduler scheduler;
-   private List<SqlTask> tasks;
+
+   private List<SqlTask> tasks = new ArrayList<>();
 
    @SneakyThrows
    @Override
    @EventListener(ApplicationReadyEvent.class)
    public void runAll() {
+      System.out.println("start all");
       List<SqlTask> tasks = dao.getAll();
       for( SqlTask task : tasks){
          if(task.isEnable()) {
@@ -55,6 +60,8 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
    }
    private void runTask(SqlTask task){
       task.setScheduledFuture(scheduler.scheduleWithFixedDelay(task, task.getInterval()));
+      task.setEnable(true);
+      dao.update(task);
       tasks.add(task);
    }
 
@@ -62,6 +69,7 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
    public boolean startById(int id) {
       if(findTask(id)==null){
          SqlTask task = dao.getById(id);
+         System.out.println("start " + id);
          runTask(task);
       }
       return true;
@@ -72,6 +80,8 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
       SqlTask task = findTask(id);
       if(task!=null){
          task.getScheduledFuture().cancel(true);
+         task.setEnable(false);
+         dao.update(task);
          tasks.remove(task);
          //dao.update();
       }
@@ -85,12 +95,13 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
 
    @Override
    public void delete(int id) {
-
+      stopById(id);
+      dao.delete(id);
    }
 
    @Override
    public SqlData test(SqlTaskForm form) throws SQLException {
-      Connect connect = dbConnect.getById(form.getId());
+      Connect connect = dbConnect.getById(form.getConnectionId());
       return SqlRunner.runCommand(connect, form.getQuery());
    }
 

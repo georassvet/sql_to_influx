@@ -3,7 +3,7 @@ package ru.riji.sql_to_influx.model;
 import lombok.Data;
 
 @Data
-public class Connect {
+public class Connect implements ITask {
     private int id;
     private String name;
     private String url;

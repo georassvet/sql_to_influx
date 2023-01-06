@@ -1,9 +1,23 @@
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.20"
+    }
+}
 plugins {
     id 'org.springframework.boot' version '2.3.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'MainApplication'
+    }
+    // This line of code recursively collects and copies all of a project's files
+    // and adds them to the JAR itself. One can extend this task, to skip certain
+    // files or particular types at will
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
 
 group = 'com.example'
 sourceCompatibility = '1.8'
@@ -16,11 +30,15 @@ repositories {
 
 }
 
+
 dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0-RC'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.3.4.RELEASE'
     implementation 'org.xerial:sqlite-jdbc:3.39.4.1'
+    implementation 'org.influxdb:influxdb-java:2.23'
     implementation 'org.threeten:threetenbp:1.5.1'
     implementation 'commons-validator:commons-validator:1.6'
     implementation('org.springframework.boot:spring-boot-starter-jdbc')

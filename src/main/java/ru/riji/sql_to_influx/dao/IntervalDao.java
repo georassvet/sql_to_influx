@@ -5,9 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.riji.sql_to_influx.form.IntervalForm;
 import ru.riji.sql_to_influx.helpers.DbUtils;
 import ru.riji.sql_to_influx.mappers.IntervalMapper;
-import ru.riji.sql_to_influx.mappers.SqlTaskMapper;
 import ru.riji.sql_to_influx.model.Interval;
-import ru.riji.sql_to_influx.model.SqlTask;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -72,7 +70,34 @@ public class IntervalDao implements IDAO<Interval, IntervalForm> {
     }
 
     @Override
-    public void delete(int id) {
+    public void update(Interval form) {
+        String sql= "update interval set name=?, value=? where id =?";
 
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setString(1, form.getName());
+            statement.setLong(2, form.getValue());
+            statement.setInt(3, form.getId());
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql= "delete from interval where id=?";
+
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

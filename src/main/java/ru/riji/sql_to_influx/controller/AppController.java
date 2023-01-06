@@ -10,6 +10,7 @@ import ru.riji.sql_to_influx.dao.SqlTaskDao;
 import ru.riji.sql_to_influx.form.SqlTaskForm;
 import ru.riji.sql_to_influx.service.SqlTaskService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @RestController
@@ -25,14 +26,19 @@ public class AppController {
     public ResponseEntity<?> tasks(RequestEntity<?> request){
         return new ResponseEntity<>(dao.getAll(), HttpStatus.OK);
     }
-    @PostMapping(value = {"/tasks/start/{id}"})
-    public ResponseEntity<?> start(RequestEntity<?> request, @PathVariable("id") int id){
-        System.out.println(id);
-        return new ResponseEntity<>(dao.getAll(), HttpStatus.OK);
+    @PostMapping(value = {"/start"})
+    public ResponseEntity<?> start( @RequestParam("id") Integer id){
+        service.startById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+    @PostMapping(value = {"/stop"})
+    public ResponseEntity<?> stop( @RequestParam("id") Integer id){
+        service.stopById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
     @PostMapping(value = {"/test"})
     public ResponseEntity<?> test(Model model, SqlTaskForm form) throws SQLException {
-
+        System.out.println("test");
         return new ResponseEntity<>(service.test(form), HttpStatus.OK);
     }
 }

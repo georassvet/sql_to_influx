@@ -6,6 +6,11 @@
 </head>
 <body>
 <div layout:fragment="content" class="container">
+    <div class="row">
+        <code>
+            SELECT datname,usename,query FROM pg_stat_activity
+        </code>
+    </div>
     <form method="post" th:action="@{/addSqlTask}" th:object="${form}" id="form">
         <input type="hidden" class="form-control" th:field="*{id}">
         <div class="row">
@@ -53,27 +58,27 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label for="query" class="form-label">Query</label>
-                    <textarea th:field="*{query}" type="text" class="form-control" id="query" rows="10"></textarea>
+                    <label for="description" class="form-label">Description</label>
+                    <textarea th:field="*{description}" type="text" class="form-control" id="description" rows="3"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <label for="query" class="form-label">Query</label>
+                    <textarea th:field="*{query}" type="text" class="form-control" id="query" rows="10"></textarea>
+                </div>
+            </div>t add
+            <div class="row">
+                <div class="col-md-12">
                    <div class="btn-group">
-                       <button class="btn btn-sm btn-secondary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save-fill" viewBox="0 0 16 16">
-                           <path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v7.793L4.854 6.646a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l3.5-3.5a.5.5 0 0 0-.708-.708L8.5 9.293V1.5z"/>
-                       </svg>
-                       </button>
-                       <button class="btn btn-sm btn-secondary" type="button" th:if="${form.id}!=0">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square-fill" viewBox="0 0 16 16">
-                               <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm3.354 4.646L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
-                           </svg>
-                       </button>
-                       <button class="btn btn-sm btn-secondary" type="button" id="test">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                               <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-                           </svg>
-                       </button>
+                       <input type="submit" class="btn btn-sm btn-secondary" value="Save">
+
+                       <a class="btn btn-sm btn-secondary" type="button" th:if="${form.id}!=0" th:href="@{'/deleteSqlTask/'+${form.id}}">
+                           Delete
+                       </a>
+                       <a class="btn btn-sm btn-secondary" type="button" id="test">
+                           Test
+                       </a>
                    </div>
                 </div>
             </div>
@@ -83,7 +88,7 @@
     <div class="row">
         <div class="col-md-12">
             <label for="output" class="form-label">Output</label>
-            <textarea type="text" class="form-control" id="output" rows="10"></textarea>
+            <div id="output"></div>
         </div>
     </div>
     <div th:replace = "/fragments/scripts.html :: script_sql"></div>

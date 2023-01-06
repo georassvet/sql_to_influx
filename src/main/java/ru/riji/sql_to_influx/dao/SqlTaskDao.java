@@ -52,7 +52,7 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
 
     @Override
     public void add(SqlTaskForm form) {
-        String sql= "insert into sql_task(name, group_name, query, db_id, influx_id, influx_db, influx_table, interval) values (?,?,?,?,?,?,?,?)";
+        String sql= "insert into sql_task(name, group_name, query, db_id, influx_id, influx_db, influx_table, interval, description) values (?,?,?,?,?,?,?,?,?)";
 
         try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
             PreparedStatement statement = connection.prepareStatement(sql)
@@ -65,6 +65,7 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
             statement.setString(6,form.getInfluxDatabase());
             statement.setString(7,form.getInfluxMeasurement());
             statement.setLong(8, form.getInterval());
+            statement.setString(9, form.getDescription());
             int count = statement.executeUpdate();
 
         }catch (SQLException e){
@@ -74,7 +75,7 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
 
     @Override
     public void update(SqlTaskForm form) {
-        String sql= "update sql_task set name=?, query=? db_id=?, influx_id=?, influx_db=?, influx_table=?, interval=?";
+        String sql= "update sql_task set name=?, query=?, db_id=?, influx_id=?, influx_db=?, influx_table=?, interval=?, description=? where id =?";
 
         try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
             PreparedStatement statement = connection.prepareStatement(sql)
@@ -86,15 +87,43 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
             statement.setString(5,form.getInfluxDatabase());
             statement.setString(6,form.getInfluxMeasurement());
             statement.setLong(7, form.getInterval());
-            statement.executeQuery();
+            statement.setString(8, form.getDescription());
+            statement.setInt(9, form.getId());
+            statement.executeUpdate();
 
         }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void update(SqlTask task) {
+        String sql= "update sql_task set enable=? where id =?";
+
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setBoolean(1, task.isEnable());
+            statement.setInt(2, task.getId());
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
         }
     }
 
     @Override
     public void delete(int id) {
+        String sql= "delete from sql_task where id=?";
 
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

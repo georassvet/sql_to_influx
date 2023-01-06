@@ -2,9 +2,10 @@ package ru.riji.sql_to_influx.form;
 
 import lombok.Data;
 import ru.riji.sql_to_influx.model.Connect;
+import ru.riji.sql_to_influx.model.IForm;
 
 @Data
-public class ConnectForm {
+public class ConnectForm implements IForm {
     private int id;
     private String name;
     private String url;

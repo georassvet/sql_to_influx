@@ -59,16 +59,21 @@ public class SqlRunner {
                 }while (rs.next());
             }
 
+            rs.close();
+            statement.close();
+            connection.close();
+
             return new SqlData(columnNames, columnTypes, influxTypes, rows);
 
         }catch (SQLException e){
             e.printStackTrace();
             return new SqlData(e.getMessage());
         }
+
     }
 
     private static String removeTag(String columnName, String tag) {
-        return columnName.replaceAll("_" + tag, "");
+        return columnName.toUpperCase().replaceAll("_" + tag, "");
     }
 
     private static String parseTag(String columnName) {

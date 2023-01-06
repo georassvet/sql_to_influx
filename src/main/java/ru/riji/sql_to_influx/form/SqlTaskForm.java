@@ -1,10 +1,11 @@
 package ru.riji.sql_to_influx.form;
 
 import lombok.Data;
+import ru.riji.sql_to_influx.model.IForm;
 import ru.riji.sql_to_influx.model.SqlTask;
 
 @Data
-public class SqlTaskForm {
+public class SqlTaskForm implements IForm {
     private int id;
     private String name;
     private String groupName;
@@ -14,6 +15,7 @@ public class SqlTaskForm {
     private String influxDatabase;
     private String influxMeasurement;
     private String query;
+    private String description;
 
     public SqlTaskForm() {
     }
@@ -28,6 +30,7 @@ public class SqlTaskForm {
         this.influxDatabase = task.getInfluxDatabase();
         this.influxMeasurement = task.getInfluxTable();
         this.query = task.getQuery();
+        this.description = task.getDescription();
     }
 
     public int getId() {

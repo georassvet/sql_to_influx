@@ -40,17 +40,27 @@
     </div>
     </form>
     <div class="row">
-        <table class="table">
+        <table class="table table-sm">
             <thead>
             <tr>
                 <th>Name</th>
                 <th>Url</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
                 <td th:text="${item.name}"></td>
                 <td th:text="${item.url}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-sm" th:href="@{'/editInflux/' + ${item.id}}">Edit</a>
+                         <form th:action="@{/deleteInflux}">
+                            <button class="btn btn-sm" type="submit" th:name="id" th:value="${item.id}">Delete</button>
+                         </form>
+                    </div>
+                </td>
+
             </tr>
             </tbody>
         </table>

@@ -11,6 +11,7 @@ import ru.riji.sql_to_influx.dao.InfluxDao;
 import ru.riji.sql_to_influx.dao.IntervalDao;
 import ru.riji.sql_to_influx.dao.SqlTaskDao;
 import ru.riji.sql_to_influx.form.ConnectForm;
+import ru.riji.sql_to_influx.form.DeleteForm;
 import ru.riji.sql_to_influx.form.IntervalForm;
 import ru.riji.sql_to_influx.form.SqlTaskForm;
 import ru.riji.sql_to_influx.service.SqlTaskService;
@@ -65,6 +66,11 @@ public class MainController {
         }
         return "redirect:/index";
     }
+    @GetMapping(value = "/deleteSqlTask")
+    public String deleteSqlTask(Model model, int id){
+        sqlTaskService.delete(id);
+        return "redirect:/addInterval";
+    }
     @GetMapping(value = "/addInterval")
     public String addInterval(Model model){
         model.addAttribute("form", new IntervalForm());
@@ -73,7 +79,7 @@ public class MainController {
     }
     @GetMapping(value = "/editInterval/{id}")
     public String editInterval(Model model, @PathVariable("id") int id){
-        model.addAttribute("form", new IntervalForm());
+        model.addAttribute("form", new IntervalForm(intervalDao.getById(id)));
         model.addAttribute("items", intervalDao.getAll());
         return "addInterval";
     }
@@ -84,6 +90,11 @@ public class MainController {
         }else{
             intervalDao.update(form);
         }
+        return "redirect:/addInterval";
+    }
+    @GetMapping(value = "/deleteInterval")
+    public String deleteInterval(Model model, int id){
+        intervalDao.delete(id);
         return "redirect:/addInterval";
     }
     @GetMapping(value = "/addInflux")
@@ -107,6 +118,11 @@ public class MainController {
         }
         return "redirect:/addInflux";
     }
+    @GetMapping(value = "/deleteInflux")
+    public String addInflux(Model model, int id){
+         influxDao.delete(id);
+        return "redirect:/addInflux";
+    }
     @GetMapping(value = "/addDbConnect")
     public String addDbConnect(Model model){
         model.addAttribute("form", new ConnectForm());
@@ -126,6 +142,11 @@ public class MainController {
         }else{
             dbDao.update(form);
         }
+        return "redirect:/addDbConnect";
+    }
+    @GetMapping(value = "/deleteDbConnect")
+    public String deleteDbConnect(Model model, int id){
+        dbDao.delete(id);
         return "redirect:/addDbConnect";
     }
 }

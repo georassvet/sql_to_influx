@@ -66,12 +66,55 @@ public class InfluxDao implements IDAO<Connect, ConnectForm> {
     }
 
     @Override
-    public void update(ConnectForm connectForm) {
+    public void update(ConnectForm form) {
+        String sql= "update influx set name=?, url=?, user=?, pass=? where id =?";
 
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setString(1, form.getName());
+            statement.setString(2, form.getUrl());
+            statement.setString(3, form.getUser());
+            statement.setString(4, form.getPass());
+            statement.setInt(5, form.getId());
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Connect form) {
+        String sql= "update influx set name=?, url=?, user=?, pass=? where id =?";
+
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setString(1, form.getName());
+            statement.setString(2, form.getUrl());
+            statement.setString(3, form.getUser());
+            statement.setString(4, form.getPass());
+            statement.setInt(5, form.getId());
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(int id) {
+        String sql= "delete from influx where id=?";
 
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

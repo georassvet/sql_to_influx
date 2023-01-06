@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.riji.sql_to_influx.form.ConnectForm;
 import ru.riji.sql_to_influx.helpers.DbUtils;
-import ru.riji.sql_to_influx.mappers.ConnectMapper;
 import ru.riji.sql_to_influx.mappers.DbMapper;
-import ru.riji.sql_to_influx.mappers.IntervalMapper;
 import ru.riji.sql_to_influx.model.Connect;
 
 import java.sql.*;
@@ -70,12 +68,41 @@ public class DbDao implements IDAO<Connect, ConnectForm>{
     }
 
     @Override
-    public void update(ConnectForm connectForm) {
+    public void update(Connect form) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void update(ConnectForm form) {
+        String sql= "update db set name=?, url=?, user=?, pass=? where id =?";
 
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setString(1, form.getName());
+            statement.setString(2, form.getUrl());
+            statement.setString(3, form.getUser());
+            statement.setString(4, form.getPass());
+            statement.setInt(5, form.getId());
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql= "delete from db where id=?";
+
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ){
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

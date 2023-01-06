@@ -28,6 +28,7 @@ public class DbUtils {
             "    id                INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "    name              CHAR,\n" +
             "    query           CHAR,\n" +
+            "    description           CHAR,\n" +
             "    interval          BIGINT,\n" +
             "    enable            BOOLEAN,\n" +
             "    db_id        INTEGER REFERENCES db (id),\n" +
@@ -57,7 +58,16 @@ public class DbUtils {
             ")";
 
     private String insert_interval = "insert into interval(name, value) values  " +
-            "('1 minute', 60000)";
+            " ('1 second', 1000)," +
+            " ('5 seconds', 5000)," +
+            " ('10 seconds', 10000)," +
+            " ('30 seconds', 30000)," +
+            " ('1 minute', 60000)," +
+            " ('5 minutes', 300000)," +
+            " ('10 minutes', 600000)," +
+            " ('30 minute', 1800000),"+
+            " ('1 hour', 3600000)," +
+            " ('24 hours', 86400000);";
     public static String getUrl() {
         return url;
     }
@@ -82,7 +92,7 @@ public class DbUtils {
         updateDb(table_influx_connect);
         updateDb(table_sql_task);
         updateDb(table_interval);
-      //  updateDb(insert_interval);
+        updateDb(insert_interval);
     }
 
     private void updateDb(String query){

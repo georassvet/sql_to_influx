@@ -9,9 +9,11 @@
 <div layout:fragment="content" class="container">
     <div class="row">
         <div class="col-md-12">
-            <a th:href="@{/addInterval}">Intervals</a>
-            <a th:href="@{/addDbConnect}">DbConnections</a>
-            <a th:href="@{/addInflux}">Influxes</a>
+            <ul>
+                <li><a th:href="@{/addInterval}">Intervals</a></li>
+                <li><a th:href="@{/addDbConnect}">DbConnections</a></li>
+                <li><a th:href="@{/addInflux}">Influxes</a></li>
+            </ul>
         </div>
     </div>
 </div>

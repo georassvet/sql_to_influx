@@ -75,7 +75,7 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
 
     @Override
     public void update(SqlTaskForm form) {
-        String sql= "update sql_task set name=?, query=?, db_id=?, influx_id=?, influx_db=?, influx_table=?, interval=?, description=? where id =?";
+        String sql= "update sql_task set name=?, query=?, db_id=?, influx_id=?, influx_db=?, influx_table=?, interval=?, description=?, group_name=? where id =?";
 
         try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
             PreparedStatement statement = connection.prepareStatement(sql)
@@ -88,7 +88,8 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
             statement.setString(6,form.getInfluxMeasurement());
             statement.setLong(7, form.getInterval());
             statement.setString(8, form.getDescription());
-            statement.setInt(9, form.getId());
+            statement.setString(9, form.getGroupName());
+            statement.setInt(10, form.getId());
             statement.executeUpdate();
 
         }catch (SQLException e){

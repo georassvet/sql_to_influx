@@ -24,6 +24,15 @@
 .name {
     width:100%
 }
+
 .status {
-    padding: 0 1rem;
+    border-radius: 5rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+.started {
+    background: green;
+}
+.stopped {
+    background:red;
 }

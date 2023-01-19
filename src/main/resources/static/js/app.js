@@ -10,7 +10,6 @@ function groupByKey(array, key) {
      }, {})
 }
 
-
 $(function(){
     getTasks();
 })
@@ -45,7 +44,7 @@ function getTasks(){
 
                 var status = $('<div>',{
                             class: item.enable ? 'status started' : 'status stopped'
-                          });
+                          }).attr('data-id', item.id );
                           var btnGroup = $('<div>',{
                                 class:'btn-group'
                             });
@@ -104,7 +103,7 @@ function getTasks(){
                         $.each(data.rows, function( i, item){
                         var tr = $('<tr>');
                             $.each(item, function(j, elem){
-                                tr.append($("<td>").text(elem));
+                                tr.append($('<td>').text(elem));
                             });
                             tbody.append(tr);
                         });
@@ -123,6 +122,7 @@ function getTasks(){
    $.post('/start', { 'id': id},
         function(data){
              console.log(data);
+  $('.status[data-id="'+id+'"]').removeClass("stopped").addClass("started");
     });
  })
 
@@ -134,6 +134,7 @@ function getTasks(){
     $.post('/stop', { 'id': id},
             function(data){
                  console.log(data);
+                   $('.status[data-id="'+id+'"]').removeClass("started").addClass("stopped");
         });
    })
 

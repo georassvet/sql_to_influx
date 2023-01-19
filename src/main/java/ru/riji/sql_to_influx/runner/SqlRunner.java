@@ -73,15 +73,15 @@ public class SqlRunner {
     }
 
     private static String removeTag(String columnName, String tag) {
-        return columnName.toUpperCase().replaceAll("_" + tag, "");
+        return columnName.toUpperCase().replaceAll("_" + tag+"$", "");
     }
 
     private static String parseTag(String columnName) {
-        if(columnName.toUpperCase().contains("_TAG")){
+        if(columnName.toUpperCase().endsWith("_TAG")){
             return "TAG";
-        }else if(columnName.toUpperCase().contains("_FIELD")){
+        }else if(columnName.toUpperCase().endsWith("_FIELD")){
             return "FIELD";
-        }else if(columnName.toUpperCase().contains("_TIME")){
+        }else if(columnName.toUpperCase().endsWith("_TIME")){
             return "TIME";
         }else {
             return null;

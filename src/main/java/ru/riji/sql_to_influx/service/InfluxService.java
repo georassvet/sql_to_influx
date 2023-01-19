@@ -38,7 +38,7 @@ public class InfluxService {
 
     private static BatchPoints doPoints(String measurement, String dbName, SqlData data){
 
-        BatchPoints points = BatchPoints.database(dbName).tag("async", "true").build();
+        BatchPoints points = BatchPoints.database(dbName).build();
 
         for (int i = 0; i < data.getRows().size() ; i++) {
 
@@ -70,6 +70,7 @@ public class InfluxService {
                                 }
                                 case "float4":
                                 case "float8":
+                                case "numeric":
                                 case "decimal": {
                                     point.addField(data.getColumnNames()[j], Double.parseDouble(data.getRows().get(i).get(j)));
                                     break;

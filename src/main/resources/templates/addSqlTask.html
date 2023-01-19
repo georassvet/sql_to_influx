@@ -7,9 +7,15 @@
 <body>
 <div layout:fragment="content" class="container">
     <div class="row">
+        <div class="col-md-8 offset-md-3">
+            <h5>Добавь время согласно формату, и промаркируй запрос тегами.</h5>
         <code>
-            SELECT datname,usename,query FROM pg_stat_activity
+            select <span class="mark">to_char(current_timestamp, 'YYYY-MM-DD HH24:MI:SS.MS')</span> time<span class="mark">_time</span>,<br>
+            'pg_stat_database_errors_sum' name<span class="mark">_tag</span>,<br>
+            sum(XACT_ROLLBACK) cnt<span class="mark">_field</span><br>
+            from pg_stat_database
         </code>
+        </div>
     </div>
     <form method="post" th:action="@{/addSqlTask}" th:object="${form}" id="form">
         <input type="hidden" class="form-control" th:field="*{id}">

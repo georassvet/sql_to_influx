@@ -32,6 +32,7 @@ repositories {
 
 
 dependencies {
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0-RC'
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -43,6 +44,8 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.6'
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.postgresql:postgresql:42.3.1')
+    implementation 'com.oracle.database.jdbc:ojdbc8:23.2.0.0'
+    implementation 'joda-time:joda-time:2.12.5'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     implementation 'org.projectlombok:lombok:1.18.24'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

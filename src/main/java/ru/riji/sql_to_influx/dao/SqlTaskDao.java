@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.riji.sql_to_influx.form.SqlTaskForm;
 import ru.riji.sql_to_influx.helpers.DbUtils;
 import ru.riji.sql_to_influx.mappers.SqlTaskMapper;
-import ru.riji.sql_to_influx.model.SqlTask;
+import ru.riji.sql_to_influx.tasks.SqlTask;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -12,8 +12,8 @@ import ru.riji.sql_to_influx.form.ConnectForm;
 import ru.riji.sql_to_influx.form.SqlTaskForm;
 import ru.riji.sql_to_influx.model.Connect;
 import ru.riji.sql_to_influx.model.SqlData;
-import ru.riji.sql_to_influx.model.SqlTask;
 import ru.riji.sql_to_influx.runner.SqlRunner;
+import ru.riji.sql_to_influx.tasks.SqlTask;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -90,6 +90,10 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
 
    @Override
    public int clone(int id) {
+      SqlTask task = dao.getById(id);
+      String name = task.getName() + "_copy";
+      task.setName(name);
+      dao.add(new SqlTaskForm(task));
       return 0;
    }
 

@@ -3,7 +3,7 @@ package ru.riji.sql_to_influx.model;
 import lombok.Data;
 
 @Data
-public class Interval implements ITask {
+public class Interval {
     private int id;
     private String name;
     private long value;

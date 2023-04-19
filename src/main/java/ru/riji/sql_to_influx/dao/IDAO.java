@@ -1,11 +1,11 @@
 package ru.riji.sql_to_influx.dao;
 
 import ru.riji.sql_to_influx.model.IForm;
-import ru.riji.sql_to_influx.model.ITask;
+import ru.riji.sql_to_influx.tasks.ITask;
 
 import java.util.List;
 
- public interface IDAO<T extends ITask, F extends IForm> {
+ public interface IDAO<T, F extends IForm> {
    List<T> getAll();
    T getById(int id);
    void add(F f);

@@ -1,8 +1,7 @@
 package ru.riji.sql_to_influx.mappers;
 
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import ru.riji.sql_to_influx.model.SqlTask;
+import ru.riji.sql_to_influx.tasks.SqlTask;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

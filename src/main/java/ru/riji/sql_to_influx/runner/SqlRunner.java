@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.riji.sql_to_influx.model.Connect;
 import ru.riji.sql_to_influx.model.SqlData;
-import ru.riji.sql_to_influx.model.SqlTask;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class SqlRunner {
@@ -20,11 +20,11 @@ public class SqlRunner {
 
 
     public static SqlData runCommand(Connect connect, String query) throws SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         try(
             Connection connection = DriverManager.getConnection(connect.getUrl(), connect.getUser(), connect.getPass());
             PreparedStatement statement = connection.prepareStatement(query)){
@@ -73,16 +73,16 @@ public class SqlRunner {
     }
 
     private static String removeTag(String columnName, String tag) {
-        return columnName.toUpperCase().replaceAll("_" + tag+"$", "");
+        return columnName.toLowerCase().replaceAll("_" + tag+"$", "");
     }
 
     private static String parseTag(String columnName) {
-        if(columnName.toUpperCase().endsWith("_TAG")){
-            return "TAG";
-        }else if(columnName.toUpperCase().endsWith("_FIELD")){
-            return "FIELD";
-        }else if(columnName.toUpperCase().endsWith("_TIME")){
-            return "TIME";
+        if(columnName.toLowerCase().endsWith("_tag")){
+            return "tag";
+        }else if(columnName.toLowerCase().endsWith("_field")){
+            return "field";
+        }else if(columnName.toLowerCase().endsWith("_time")){
+            return "time";
         }else {
             return null;
         }

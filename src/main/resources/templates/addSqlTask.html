@@ -27,7 +27,6 @@
                             th:text="${interval.name}"
                             th:value="${interval.value}">
                 </select>
-            </select>
             <label for="connectionId" class="form-label">DbConnection</label><a th:href="@{/addDbConnect}">Add</a>
             <select th:field="*{connectionId}" size="5" class="form-select" aria-label="Default select example" id="connectionId">
                 <option th:each="db : ${dbs}"

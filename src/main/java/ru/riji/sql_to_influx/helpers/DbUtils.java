@@ -68,6 +68,7 @@ public class DbUtils {
             " ('30 minute', 1800000),"+
             " ('1 hour', 3600000)," +
             " ('24 hours', 86400000);";
+
     public static String getUrl() {
         return url;
     }
@@ -92,7 +93,7 @@ public class DbUtils {
         updateDb(table_influx_connect);
         updateDb(table_sql_task);
         updateDb(table_interval);
-        updateDb(insert_interval);
+       // updateDb(insert_interval);
     }
 
     private void updateDb(String query){

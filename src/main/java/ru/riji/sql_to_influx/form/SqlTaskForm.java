@@ -2,7 +2,7 @@ package ru.riji.sql_to_influx.form;
 
 import lombok.Data;
 import ru.riji.sql_to_influx.model.IForm;
-import ru.riji.sql_to_influx.model.SqlTask;
+import ru.riji.sql_to_influx.tasks.SqlTask;
 
 @Data
 public class SqlTaskForm implements IForm {

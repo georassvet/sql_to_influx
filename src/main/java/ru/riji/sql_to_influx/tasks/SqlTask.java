@@ -1,11 +1,12 @@
-package ru.riji.sql_to_influx.model;
+package ru.riji.sql_to_influx.tasks;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import ru.riji.sql_to_influx.model.Connect;
+import ru.riji.sql_to_influx.model.SqlData;
 import ru.riji.sql_to_influx.runner.SqlRunner;
 import ru.riji.sql_to_influx.service.InfluxService;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledFuture;
 
 @Data
@@ -41,7 +42,7 @@ public class SqlTask implements ITask, Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        System.out.println("run task");
-        InfluxService.writeData(SqlRunner.runCommand(this.dbConnect, this.getQuery()), this);
+        SqlData data = SqlRunner.runCommand(this.dbConnect, this.getQuery());
+        InfluxService.writeLineFormat2(data, this);
     }
 }

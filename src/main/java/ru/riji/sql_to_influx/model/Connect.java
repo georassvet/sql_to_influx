@@ -1,6 +1,7 @@
 package ru.riji.sql_to_influx.model;
 
 import lombok.Data;
+import ru.riji.sql_to_influx.tasks.ITask;
 
 @Data
 public class Connect implements ITask {

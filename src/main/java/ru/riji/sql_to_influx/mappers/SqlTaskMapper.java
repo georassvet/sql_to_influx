@@ -8,6 +8,8 @@ import java.sql.SQLException;
 @Component
 public class SqlTaskMapper implements IMapper<SqlTask> {
 
+    public static String sql_groups= "select distinct(st.group_name) from sql_task st";
+    public static String sql_influx_dbs= "select distinct(st.influx_db) from sql_task st";
     public static String sql_all= "select st.id id, st.name name, st.group_name group_name, st.query query, st.enable enable, db.id db_id, db.name db_name, db.url db_url, db.user db_user, db.pass db_pass, i.id influx_id, i.name influx_name, i.url influx_url, i.user influx_user, i.pass influx_pass, influx_db, influx_table, st.interval interval, st.description description from sql_task st " +
         " join db on st.db_id = db.id " +
         " join influx i on st.influx_id = i.id";

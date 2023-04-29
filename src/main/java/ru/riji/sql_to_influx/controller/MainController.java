@@ -11,9 +11,9 @@ import ru.riji.sql_to_influx.dao.InfluxDao;
 import ru.riji.sql_to_influx.dao.IntervalDao;
 import ru.riji.sql_to_influx.dao.SqlTaskDao;
 import ru.riji.sql_to_influx.form.ConnectForm;
-import ru.riji.sql_to_influx.form.DeleteForm;
 import ru.riji.sql_to_influx.form.IntervalForm;
 import ru.riji.sql_to_influx.form.SqlTaskForm;
+import ru.riji.sql_to_influx.mappers.SqlTaskMapper;
 import ru.riji.sql_to_influx.service.SqlTaskService;
 
 @Controller
@@ -22,7 +22,7 @@ public class MainController {
     private SqlTaskService sqlTaskService;
 
     @Autowired
-    private SqlTaskDao dao;
+    private SqlTaskDao sqlTaskDao;
     @Autowired
     private IntervalDao intervalDao;
     @Autowired
@@ -45,6 +45,8 @@ public class MainController {
         model.addAttribute("influxes", influxDao.getAll());
         model.addAttribute("dbs", dbDao.getAll());
         model.addAttribute("intervals", intervalDao.getAll());
+        model.addAttribute("groups", sqlTaskDao.getList(SqlTaskMapper.sql_groups));
+        model.addAttribute("influx_dbs", sqlTaskDao.getList(SqlTaskMapper.sql_influx_dbs));
         model.addAttribute("form", new SqlTaskForm());
         return "addSqlTask";
     }
@@ -54,7 +56,9 @@ public class MainController {
         model.addAttribute("influxes", influxDao.getAll());
         model.addAttribute("dbs", dbDao.getAll());
         model.addAttribute("intervals", intervalDao.getAll());
-        model.addAttribute("form", new SqlTaskForm(dao.getById(id)));
+        model.addAttribute("groups", sqlTaskDao.getList(SqlTaskMapper.sql_groups));
+        model.addAttribute("influxdbs", sqlTaskDao.getList(SqlTaskMapper.sql_influx_dbs));
+        model.addAttribute("form", new SqlTaskForm(sqlTaskDao.getById(id)));
         return "addSqlTask";
     }
     @PostMapping(value = "/addSqlTask")

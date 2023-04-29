@@ -33,6 +33,21 @@ public class SqlTaskDao implements IDAO<SqlTask, SqlTaskForm> {
         return items;
     }
 
+    public List<String> getList(String query) {
+        List<String> items = new ArrayList<>();
+        try(Connection connection = DriverManager.getConnection(DbUtils.getUrl());
+            PreparedStatement statement = connection.prepareStatement(query)
+        ){
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                items.add(rs.getString(1));
+            }
+        }catch (SQLException e){
+            System.out.println(e);
+        }
+        return items;
+    }
+
     @Override
     public SqlTask getById(int id) {
 

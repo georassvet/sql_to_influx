@@ -48,13 +48,23 @@
                 </div>
                 <div class="col-md-6">
                     <label for="influxMeasurement" class="form-label">InfluxMeasurement</label>
-                    <input th:field="*{influxMeasurement}" type="text" class="form-control" id="influxMeasurement">
+                    <input th:field="*{influxMeasurement}" type="text" class="form-control" id="influxMeasurement"  list="influxdbs">
+                    <datalist id="influxdbs">
+                        <option th:each="influxdb : ${influxdbs}"
+                                th:text="${influxdb}"
+                                th:value="${influxdb}">
+                    </datalist>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="group-name" class="form-label">GroupName</label>
-                    <input th:field="*{groupName}" type="text" class="form-control" id="group-name">
+                    <input th:field="*{groupName}" type="text" class="form-control" id="group-name" list="groups">
+                    <datalist id="groups">
+                        <option th:each="group : ${groups}"
+                                th:text="${group}"
+                                th:value="${group}">
+                    </datalist>
                 </div>
                 <div class="col-md-6">
                     <label for="name" class="form-label">Name</label>

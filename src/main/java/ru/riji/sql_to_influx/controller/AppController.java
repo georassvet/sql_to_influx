@@ -39,12 +39,12 @@ public class AppController {
     @PostMapping(value = {"/clone"})
     public ResponseEntity<?> clone( @RequestParam("id") Integer id){
         service.clone(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(dao.getAll(), HttpStatus.OK);
     }
     @PostMapping(value = {"/delete"})
     public ResponseEntity<?> delete( @RequestParam("id") Integer id){
         service.delete(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(dao.getAll(), HttpStatus.OK);
     }
     @PostMapping(value = {"/test"})
     public ResponseEntity<?> test(Model model, SqlTaskForm form) throws SQLException {

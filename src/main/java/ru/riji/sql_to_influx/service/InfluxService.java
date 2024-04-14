@@ -40,6 +40,11 @@ public class InfluxService {
     private static DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
 
+    private static  DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd HH:mm:ss")
+            .appendPattern("[.SSSSSSSSS][.SSSSSS][.SSS]")
+            .toFormatter();
+
 
         private static final ThreadLocal<SimpleDateFormat> FORMATTER_MILLIS = new ThreadLocal<SimpleDateFormat>() {
             @Override
@@ -121,10 +126,7 @@ public class InfluxService {
                 for (int j = 0; j < data.getInfluxTypes().length; j++) {
                     switch (data.getInfluxTypes()[j]) {
                         case "time": {
-
-                            System.out.println(data.getRows().get(i).get(j));
-                            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
-                            LocalDateTime localDateTime = LocalDateTime.parse(data.getRows().get(i).get(j), dateTimeFormatter);
+                             LocalDateTime localDateTime = LocalDateTime.parse(data.getRows().get(i).get(j), formatter);
                             //ZoneId zoneId = ZoneId.of("America/Chicago");
                             ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
                             Instant instant = zonedDateTime.toInstant();

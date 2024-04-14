@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class AppController {
 
     @Autowired
-    SqlTaskService service;
+    private SqlTaskService service;
 
     @Autowired
     SqlTaskDao dao;

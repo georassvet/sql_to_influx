@@ -59,7 +59,7 @@ public class SqlTaskService implements IService<SqlTask, SqlData, SqlTaskForm> {
       return null;
    }
    private void runTask(SqlTask task){
-      task.setScheduledFuture(scheduler.scheduleWithFixedDelay(task, task.getInterval()));
+      task.setScheduledFuture(scheduler.scheduleAtFixedRate(task, task.getInterval()));
       task.setEnable(true);
       dao.update(task);
       tasks.add(task);

@@ -17,7 +17,7 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: end;
-    align-items: left;
+    align-items: center;
     border-radius:0.25rem;
 }
 .task a {
